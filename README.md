@@ -5,3 +5,4 @@ instalar o ts com npm i typescript -D // para instalar nas dependencias de desen
 Apos instalar temos que rodar o comando npx tsc --init
 Criando a pasta tsconfig, alteramos o target para 2022
 Agora podemos converter um arquivo .ts para .js usando npx tsc nome_do_arquivo
+temos que instalar os typos do node com npm i -D @types/node
