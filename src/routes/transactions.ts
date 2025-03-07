@@ -3,9 +3,21 @@ import {z} from 'zod';
 import { knex } from "../database";
 import { title } from "process";
 import crypto from 'node:crypto';
+import { checkSessionId } from "../middlewares/check-session-id";
 
 export const transactionsRoutes = async (app: FastifyInstance) => {
-  app.get('/', async (req, res) => {
+  // app.addHook('preHandler', async (req, res) => {
+  //   const sessionId = req.cookies.sessionId;
+
+  //   if (!sessionId) {
+  //     return res.status(401).send({message: 'não autorizado'});
+  //   }
+  // });
+
+  app.get('/', {
+    preHandler: [checkSessionId]
+  }, async (req, res) => {
+    
     const transactions = await knex('transactions').select('*');
 
     return res.status(200).send({transactions})
@@ -54,9 +66,10 @@ export const transactionsRoutes = async (app: FastifyInstance) => {
       id: crypto.randomUUID(),
       title,
       amount: type === 'credit' ? amount : amount * -1,
-      session_id: sessionId
+      session_id: sessionId,
+      type
     });
 
-    res.status(201).send('feito');
+    return res.status(201).send('feito');
   });
 }

@@ -6,7 +6,7 @@ declare module 'knex/types/tables' {
       id: string,
       title: string,
       amount: number,
-      type?: string,
+      type: string,
       session_id?: string
     }
   }
